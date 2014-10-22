@@ -78,6 +78,7 @@ function Conductor(tuning, rhythm) {
     conductor.onTickerCallback = noop;
     conductor.onFinishedCallback = noop;
     conductor.onDurationChangeCallback = noop;
+    conductor.updateAtIntervals = true;
 
     /**
      * Use JSON to load in a song to be played
@@ -933,7 +934,7 @@ function Player(conductor) {
      */
     function updateTotalPlayTime() {
         totalPlayTime += conductor.audioContext.currentTime - currentPlayTime;
-        var seconds = Math.round(totalPlayTime);
+        var seconds = conductor.updateAtIntervals ? Math.round(totalPlayTime) : totalPlayTime;
         if (seconds != conductor.currentSeconds) {
             // Make callback asynchronous
             setTimeout(function() {
